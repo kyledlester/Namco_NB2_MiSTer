@@ -1,0 +1,333 @@
+{
+ "set": "machbrkrj",
+ "parent": "machbrkr",
+ "description": "Mach Breakers - Numan Athletics 2 (Japan, MB1)",
+ "year": "1995",
+ "manufacturer": "Namco",
+ "rotate": 0,
+ "mame": {
+  "version": "0.289 (mame0289)",
+  "source": "namconb1.cpp",
+  "note": ""
+ },
+ "regions": [
+  {
+   "tag": "maincpu",
+   "size": 1048576,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1_mprl.11c",
+     "offset": 2,
+     "length": 524288,
+     "crc": "86cf0644",
+     "sha1": "07eeadda1d94c9be2f882edb6f2eb0b98292e500"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1_mpru.11d",
+     "offset": 0,
+     "length": 524288,
+     "crc": "fb1ff916",
+     "sha1": "e0ba96c1f26a60f87d8050e582e164d91e132183"
+    }
+   ]
+  },
+  {
+   "tag": "c75data",
+   "size": 524288,
+   "width": "16_LE",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_spr0.5b",
+     "offset": 0,
+     "length": 524288,
+     "crc": "d10f6272",
+     "sha1": "cb99e06e050dbf86998ea51ef2ca130b2acfb2f6"
+    }
+   ]
+  },
+  {
+   "tag": "c352",
+   "size": 16777216,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_voi0.6n",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "d363ca3b",
+     "sha1": "71650b66ca3eb00f6ad7d3f1df0f37210b77b942"
+    },
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_voi0.6n",
+     "offset": 4194304,
+     "length": 2097152,
+     "crc": "d363ca3b",
+     "sha1": "71650b66ca3eb00f6ad7d3f1df0f37210b77b942",
+     "reload": true
+    },
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_voi1.6p",
+     "offset": 8388608,
+     "length": 2097152,
+     "crc": "7e1c2603",
+     "sha1": "533098a54fb897931f1d75be9e69a5c047e4c446"
+    },
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_voi1.6p",
+     "offset": 12582912,
+     "length": 2097152,
+     "crc": "7e1c2603",
+     "sha1": "533098a54fb897931f1d75be9e69a5c047e4c446",
+     "reload": true
+    }
+   ]
+  },
+  {
+   "tag": "c123tmap:mask",
+   "size": 2097152,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_shas.12s",
+     "offset": 0,
+     "length": 1048576,
+     "crc": "c51c614b",
+     "sha1": "519ecad2e4543c05ec35a727f4c875ab006291af"
+    }
+   ]
+  },
+  {
+   "tag": "c169roz:mask",
+   "size": 2097152,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_shar.18s",
+     "offset": 0,
+     "length": 524288,
+     "crc": "d9329b10",
+     "sha1": "149c8804c07350f47af36bc7902371f1dfbed272"
+    }
+   ]
+  },
+  {
+   "tag": "c355spr",
+   "size": 33554432,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj0l.4c",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "056e6b1c",
+     "sha1": "44e49de80c925c8fbe04bf9328a77a50a305a5a7"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj0u.8c",
+     "offset": 2,
+     "length": 2097152,
+     "crc": "e19b1714",
+     "sha1": "ff43bf3c8e8698934c4057c7b4c72db73929e2af"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj1l.4b",
+     "offset": 4194304,
+     "length": 2097152,
+     "crc": "af69f7f1",
+     "sha1": "414544ec1a9aaffb751beaf63d937ce78d0cf9c6"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj1u.8b",
+     "offset": 4194306,
+     "length": 2097152,
+     "crc": "e8ff9082",
+     "sha1": "a8c7feb33f6243f1f3bda00deffa695ac2b19171"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj2l.4a",
+     "offset": 8388608,
+     "length": 2097152,
+     "crc": "3a5c7379",
+     "sha1": "ffe9a229eb04a894e5f3bb8ac2fc4617b5413ac3"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj2u.8a",
+     "offset": 8388610,
+     "length": 2097152,
+     "crc": "b59cf5e0",
+     "sha1": "eee7511f117a4c1a24e4187e3f30e4d66f914a81"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj3l.6c",
+     "offset": 12582912,
+     "length": 2097152,
+     "crc": "9a765d58",
+     "sha1": "2e9ea0f76f80383fcf093e947e1fe161743e33fb"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj3u.9c",
+     "offset": 12582914,
+     "length": 2097152,
+     "crc": "5329c693",
+     "sha1": "955b3b8b9813826347a1211f71fa0a294b759ccd"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj4l.6b",
+     "offset": 16777216,
+     "length": 2097152,
+     "crc": "a650b05e",
+     "sha1": "b247699433c7bf4b6ae990fc06255cfd48a248dd"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "mb1obj4u.9b",
+     "offset": 16777218,
+     "length": 2097152,
+     "crc": "6d0c37e9",
+     "sha1": "3a3feb74b890e0a933dcc791e5eee1fb4bdcbb69"
+    }
+   ]
+  },
+  {
+   "tag": "c169roz",
+   "size": 4194304,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_rot0.3d",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "bc353630",
+     "sha1": "2bbddda632298899716394ddcfe51412576ca74a"
+    },
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_rot1.3c",
+     "offset": 2097152,
+     "length": 2097152,
+     "crc": "cf7688cb",
+     "sha1": "29a040ce2c4e3bf671cff1a7a1ade06103db236a"
+    }
+   ]
+  },
+  {
+   "tag": "c123tmap",
+   "size": 6291456,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_scr0.1d",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "c678d5f3",
+     "sha1": "98d1523bef50d444be9485c4e7f6932cccbea191"
+    },
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_scr1.1c",
+     "offset": 2097152,
+     "length": 2097152,
+     "crc": "fb2b1939",
+     "sha1": "bf9d7b93205e7012aa86693f3d2ba8f4d729bc97"
+    },
+    {
+     "kind": "ROM_LOAD",
+     "name": "mb1_scr2.1b",
+     "offset": 4194304,
+     "length": 2097152,
+     "crc": "0e6097a5",
+     "sha1": "b6c64b3e34ba913138b6b7c3d99d2be4f3ceda08"
+    }
+   ]
+  },
+  {
+   "tag": "data",
+   "size": 1048576,
+   "width": "32_BE",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD16_WORD_SWAP",
+     "name": "mb1_dat0.20a",
+     "offset": 0,
+     "length": 524288,
+     "crc": "fb2e3cd1",
+     "sha1": "019b1d645a07619036522f42e0b9a537f39b6b93"
+    }
+   ]
+  },
+  {
+   "tag": "mcu:internal",
+   "size": 16384,
+   "width": "",
+   "fill": 0,
+   "device": "namcoc75",
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "c75.bin",
+     "offset": 0,
+     "length": 16384,
+     "crc": "42f539a5",
+     "sha1": "3103e5a0a2867620309fd4fe478a2be0effbeff8"
+    }
+   ]
+  }
+ ],
+ "board": {
+  "keycus": {
+   "mode": 0,
+   "id": 0,
+   "id_word": 0,
+   "rnd_word": 0,
+   "part": "",
+   "source": "custom_key_r NAMCONB2_MACH_BREAKERS (init_machbrkr)"
+  },
+  "flags": 2,
+  "machine": "machbrkr",
+  "hot_pages": [
+   "208",
+   "209",
+   "20A",
+   "20B",
+   "218",
+   "219",
+   "21B",
+   "21E",
+   "23A",
+   "23E",
+   "23F",
+   "240"
+  ],
+  "hot_pages_source": "MAME 0.289 nb2_profile.lua, 9000 frames with autoplay: the (at most 28) most-read pages among those read more than 1000 times (page order)"
+ }
+}

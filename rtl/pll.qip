@@ -1,0 +1,4 @@
+# Core PLL, included by sys/pll_q17.qip (the framework expects rtl/pll.qip).
+# NB-1 uses a directly instantiated altera_pll (rtl/nb1/nb1_pll.sv), not a
+# MegaWizard-generated IP variation.
+set_global_assignment -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) nb1/nb1_pll.sv]

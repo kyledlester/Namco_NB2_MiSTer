@@ -1,0 +1,323 @@
+{
+ "set": "outfxiesja",
+ "parent": "outfxies",
+ "description": "The Outfoxies (Japan, OU1, alternate GFX ROMs)",
+ "year": "1994",
+ "manufacturer": "Namco",
+ "rotate": 0,
+ "mame": {
+  "version": "0.289 (mame0289)",
+  "source": "namconb1.cpp",
+  "note": ""
+ },
+ "regions": [
+  {
+   "tag": "maincpu",
+   "size": 1048576,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1_mprl.11c",
+     "offset": 2,
+     "length": 524288,
+     "crc": "d3b9e530",
+     "sha1": "3f5fe5eea817a23dfe42e76f32912ce94d4c49c9"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1_mpru.11d",
+     "offset": 0,
+     "length": 524288,
+     "crc": "d98308fb",
+     "sha1": "fdefeebf56464a20e3aaefd88df4eee9f7b5c4f3"
+    }
+   ]
+  },
+  {
+   "tag": "c75data",
+   "size": 524288,
+   "width": "16_LE",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "ou1spr0.5b",
+     "offset": 0,
+     "length": 524288,
+     "crc": "60cee566",
+     "sha1": "2f3b96793816d90011586e0f9f71c58b636b6d4c"
+    }
+   ]
+  },
+  {
+   "tag": "c352",
+   "size": 16777216,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "ou1voi0.6n",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "2d8fb271",
+     "sha1": "bde9d45979728f5a2cd8ec89f5f81bf16b694cc2"
+    }
+   ]
+  },
+  {
+   "tag": "c123tmap:mask",
+   "size": 2097152,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "ou1shas.12s",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "9bcb0397",
+     "sha1": "54a32b6394d0e6f51bfd281f8a4bafce6ddf6246"
+    }
+   ]
+  },
+  {
+   "tag": "c169roz:mask",
+   "size": 2097152,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "ou1shar.18s",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "fbb48194",
+     "sha1": "2d3ec5bc519fad2b755018f83fadfe0cba13c292"
+    }
+   ]
+  },
+  {
+   "tag": "c355spr",
+   "size": 33554432,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj0l.4c",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "ecf135e4",
+     "sha1": "f88924bf4528845c6d178abf0c0d71e3030d6823"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj0u.8c",
+     "offset": 2,
+     "length": 2097152,
+     "crc": "229fe774",
+     "sha1": "97de8777a2bf3d39c8331183fa13e339ee946287"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj1l.4b",
+     "offset": 4194304,
+     "length": 2097152,
+     "crc": "0b9d060e",
+     "sha1": "3e148d5fd5857d267c83e08a2065e8af6554f538"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj1u.8b",
+     "offset": 4194306,
+     "length": 2097152,
+     "crc": "34a0feca",
+     "sha1": "dcd88d762c19ff2972f52f0c7fd506b48f2ad3e5"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj2l.4a",
+     "offset": 8388608,
+     "length": 2097152,
+     "crc": "128119c4",
+     "sha1": "92f373bda457826dbf017971171d91f01b4fb17b"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj2u.8a",
+     "offset": 8388610,
+     "length": 2097152,
+     "crc": "ce74c385",
+     "sha1": "fe93b451a762cbfc8b72778837f205b2c300d6b3"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj3l.6c",
+     "offset": 12582912,
+     "length": 2097152,
+     "crc": "39d9aa54",
+     "sha1": "d5a40c145da84f77d9fa0c635ea6253d0d30bec4"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj3u.9c",
+     "offset": 12582914,
+     "length": 2097152,
+     "crc": "022f4a73",
+     "sha1": "d0cf1df3731c5166f0e882f2eaa5603ff643d0e5"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj4l.6b",
+     "offset": 16777216,
+     "length": 2097152,
+     "crc": "b26fbb92",
+     "sha1": "906f4f9ebc114872ffb9a1443d3daec7fc9a66e4"
+    },
+    {
+     "kind": "ROM_LOAD32_WORD",
+     "name": "ou1obj4u.9b",
+     "offset": 16777218,
+     "length": 2097152,
+     "crc": "ad99607d",
+     "sha1": "b5a3442d74a2c153e646f498f4386a078fe51b80"
+    }
+   ]
+  },
+  {
+   "tag": "c169roz",
+   "size": 6291456,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "ou1-rot0.3d",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "30511ffb",
+     "sha1": "26f6c8ad0763427b90aa811528112318160399c1"
+    },
+    {
+     "kind": "ROM_LOAD",
+     "name": "ou1-rot1.3c",
+     "offset": 2097152,
+     "length": 2097152,
+     "crc": "f4b61c22",
+     "sha1": "8421c021ab4eceef5974cf90b4281c09a6cd3fc7"
+    },
+    {
+     "kind": "ROM_LOAD",
+     "name": "ou1-rot2.3b",
+     "offset": 4194304,
+     "length": 2097152,
+     "crc": "d48b29d8",
+     "sha1": "f4359eb0a5a1cf860abaa90a812e3ca5b2ed6e37"
+    }
+   ]
+  },
+  {
+   "tag": "c123tmap",
+   "size": 2097152,
+   "width": "",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "ou1-scr0.1d",
+     "offset": 0,
+     "length": 2097152,
+     "crc": "692b63f8",
+     "sha1": "a16b95eb5e99ad59c39f64b83d09ae6c95ac7865"
+    }
+   ]
+  },
+  {
+   "tag": "data",
+   "size": 1048576,
+   "width": "32_BE",
+   "fill": 0,
+   "loads": [
+    {
+     "kind": "ROM_LOAD16_WORD_SWAP",
+     "name": "ou1dat0.20a",
+     "offset": 0,
+     "length": 524288,
+     "crc": "1a49aead",
+     "sha1": "df243aff1a6fb5bcf4d5d883c5af2374a4aff477"
+    },
+    {
+     "kind": "ROM_LOAD16_WORD_SWAP",
+     "name": "ou1dat1.20b",
+     "offset": 524288,
+     "length": 524288,
+     "crc": "63bb119d",
+     "sha1": "d4c2820243b84c3f5cdf7f9e66bb50f53d0efed2"
+    }
+   ]
+  },
+  {
+   "tag": "mcu:internal",
+   "size": 16384,
+   "width": "",
+   "fill": 0,
+   "device": "namcoc75",
+   "loads": [
+    {
+     "kind": "ROM_LOAD",
+     "name": "c75.bin",
+     "offset": 0,
+     "length": 16384,
+     "crc": "42f539a5",
+     "sha1": "3103e5a0a2867620309fd4fe478a2be0effbeff8"
+    }
+   ]
+  }
+ ],
+ "board": {
+  "keycus": {
+   "mode": 1,
+   "id": 390,
+   "id_word": 1,
+   "rnd_word": 2,
+   "part": "C390",
+   "source": "custom_key_r NAMCONB2_OUTFOXIES (init_outfxies)"
+  },
+  "flags": 2,
+  "machine": "machbrkr",
+  "hot_pages": [
+   "208",
+   "209",
+   "20A",
+   "20B",
+   "20C",
+   "20D",
+   "20E",
+   "20F",
+   "212",
+   "213",
+   "214",
+   "215",
+   "216",
+   "217",
+   "218",
+   "219",
+   "21A",
+   "21C",
+   "220",
+   "224",
+   "225",
+   "226",
+   "228",
+   "22D",
+   "22E",
+   "235",
+   "236",
+   "240"
+  ],
+  "hot_pages_source": "MAME 0.289 nb2_profile.lua, 9000 frames with autoplay: the (at most 28) most-read pages among those read more than 1000 times (page order)"
+ }
+}
