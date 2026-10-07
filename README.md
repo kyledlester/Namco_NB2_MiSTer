@@ -1,5 +1,7 @@
 # Namco NB-2 for MiSTer
 
+<img width="846" height="636" alt="image" src="https://github.com/user-attachments/assets/2643a23d-47dc-4ffb-b1ea-8b364dc9e928" />
+
 A MiSTer FPGA core for Namco's **NB-2** arcade board (1994-1995): **The Outfoxies** and **Mach Breakers**.
 One core (`Namco_NB2`) runs both games; each game has its own MRA.
 
