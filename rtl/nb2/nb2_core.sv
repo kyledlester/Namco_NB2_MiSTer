@@ -105,7 +105,22 @@ module nb2_core #(
     nb1_cpu_raster #(.LEAD(2)) cpu_raster (.line_end(line_end), .vcount(vcount), .line_start(cpu_line_start),
                                            .line_next(cpu_line_next), .vbl(cpu_vbl), .frame(cpu_frame));
     wire reset_sys, reset_cpu, reset_c75, reset_video;
-    nb1_reset reset_gen (.clk_sys(clk_sys), .reset_request(reset_request | ioctl_download), .pll_locked(pll_locked),
+    // ------------------------------------------------------------------ DDR3 fast ROM loading (nb2_fastload)
+    // Every ioctl consumer below sees io_* (hps_io's ioctl, or the replay of a fast index-0 download).
+    wire        io_dl, io_wr, io_wait;
+    wire [15:0] io_index, io_dout;
+    wire [26:0] io_addr;
+    wire        fl_own, fl_rd;
+    wire [28:0] fl_addr;
+    nb2_fastload #(.INDEX(16'd0)) fastload (
+        .clk(clk_sys),
+        .h_download(ioctl_download), .h_index(ioctl_index), .h_wr(ioctl_wr), .h_addr(ioctl_addr), .h_dout(ioctl_dout),
+        .h_wait(ioctl_wait),
+        .c_download(io_dl), .c_index(io_index), .c_wr(io_wr), .c_addr(io_addr), .c_dout(io_dout), .c_wait(io_wait),
+        .own(fl_own), .d_rd(fl_rd), .d_addr(fl_addr), .d_busy(DDRAM_BUSY), .d_dout(DDRAM_DOUT),
+        .d_dout_ready(DDRAM_DOUT_READY), .active(), .loads());
+
+    nb1_reset reset_gen (.clk_sys(clk_sys), .reset_request(reset_request | io_dl), .pll_locked(pll_locked),
                          .frame_end(frame_end), .reset_sys(reset_sys), .reset_cpu(reset_cpu),
                          .reset_c75(reset_c75), .reset_video(reset_video));
     wire mem_init = ~pll_locked;
@@ -151,13 +166,20 @@ module nb2_core #(
     // The store's reset drops queued sprite reads; it refuses new requests while asserted, so it must not follow
     // the download-held reset_video (the loader's OBJ writes would wait forever: hardware test 1).
     nb2_obj_store obj_store (
-        .clk_sys(clk_sys), .reset(reset_video & ~ioctl_download),
+        .clk_sys(clk_sys), .reset(reset_video & ~io_dl),
         .l_valid(ol_valid), .l_ready(ol_ready), .l_offset(ol_offset), .l_we(ol_we), .l_wdata(ol_wdata), .l_be(ol_be),
         .l_rsp_valid(ol_rsp_valid), .l_rsp_rdata(ol_rdata), .l_rsp_line(ol_line), .l_rsp_err(ol_rsp_err),
         .s_valid(os_valid), .s_ready(os_ready), .s_offset(os_offset), .s_rsp_valid(os_rsp_valid), .s_rsp_line(os_line),
-        .DDRAM_BUSY(DDRAM_BUSY), .DDRAM_BURSTCNT(DDRAM_BURSTCNT), .DDRAM_ADDR(DDRAM_ADDR), .DDRAM_DOUT(DDRAM_DOUT),
-        .DDRAM_DOUT_READY(DDRAM_DOUT_READY), .DDRAM_RD(DDRAM_RD), .DDRAM_DIN(DDRAM_DIN), .DDRAM_BE(DDRAM_BE),
-        .DDRAM_WE(DDRAM_WE), .max_latency());
+        .DDRAM_BUSY(DDRAM_BUSY || fl_own), .DDRAM_BURSTCNT(), .DDRAM_ADDR(o_addr), .DDRAM_DOUT(DDRAM_DOUT),
+        .DDRAM_DOUT_READY(DDRAM_DOUT_READY && !fl_own), .DDRAM_RD(o_rd), .DDRAM_DIN(DDRAM_DIN), .DDRAM_BE(DDRAM_BE),
+        .DDRAM_WE(o_we), .max_latency());
+    // DDR3 command port: the sprite store, or the fast loader while it fetches (nb2_fastload)
+    wire        o_rd, o_we;
+    wire [28:0] o_addr;
+    assign DDRAM_BURSTCNT = 8'd1;
+    assign DDRAM_RD   = fl_own ? fl_rd   : o_rd;
+    assign DDRAM_WE   = fl_own ? 1'b0    : o_we;
+    assign DDRAM_ADDR = fl_own ? fl_addr : o_addr;
 
     // ------------------------------------------------------------------ loader, checker, board record
     wire        ld_wait;
@@ -183,8 +205,8 @@ module nb2_core #(
 
     nb2_rom_loader #(.INDEX(IOCTL_ROM)) rom_loader (
         .clk_sys(clk_sys), .init(mem_init),
-        .ioctl_download(ioctl_download), .ioctl_index(ioctl_index), .ioctl_wr(ioctl_wr), .ioctl_addr(ioctl_addr),
-        .ioctl_dout(ioctl_dout), .ioctl_wait(ld_wait),
+        .ioctl_download(io_dl), .ioctl_index(io_index), .ioctl_wr(io_wr), .ioctl_addr(io_addr),
+        .ioctl_dout(io_dout), .ioctl_wait(ld_wait),
         .sd_valid(m_valid[0]), .sd_ready(m_ready[0]), .sd_rsp_valid(m_rsp_valid[0]),
         .obj_valid(ld_ovalid), .obj_ready(ol_ready && ld_ovalid), .obj_rsp_valid(ol_rsp_valid && ld_obj_out),
         .req_region(ld_region), .req_offset(ld_offset), .req_we(ld_we), .req_wdata(ld_wdata), .req_be(ld_be),
@@ -198,8 +220,8 @@ module nb2_core #(
     wire [5:0] chk_n; wire [63:0] chk_st; wire [3:0] chk_runs;
     nb2_rom_check #(.INDEX(IOCTL_CHECK), .MAX_ENTRIES(32)) rom_check (
         .clk_sys(clk_sys), .init(mem_init), .reset(reset_sys), .restart(rerun_check),
-        .ioctl_download(ioctl_download), .ioctl_index(ioctl_index), .ioctl_wr(ioctl_wr), .ioctl_addr(ioctl_addr),
-        .ioctl_dout(ioctl_dout), .rom_loaded(rom_loaded), .stream_bytes(stream_bytes),
+        .ioctl_download(io_dl), .ioctl_index(io_index), .ioctl_wr(io_wr), .ioctl_addr(io_addr),
+        .ioctl_dout(io_dout), .rom_loaded(rom_loaded), .stream_bytes(stream_bytes),
         .sd_valid(m_valid[1]), .sd_ready(m_ready[1]), .sd_rsp_valid(m_rsp_valid[1]), .sd_rsp_rdata(m_rdata),
         .sd_rsp_err(m_err),
         .obj_valid(ck_ovalid), .obj_ready(ol_ready && !ld_ovalid), .obj_rsp_valid(ol_rsp_valid && !ld_obj_out),
@@ -213,14 +235,14 @@ module nb2_core #(
     wire brd_ok, brd_seen;
     wire [7:0] kc_mode; wire [3:0] kc_idw, kc_rw, xform; wire [15:0] kc_id; wire [56:0] hot_pages;
     nb2_board_config #(.INDEX(IOCTL_BOARD)) board_config (
-        .clk_sys(clk_sys), .init(mem_init), .ioctl_download(ioctl_download), .ioctl_index(ioctl_index),
-        .ioctl_wr(ioctl_wr), .ioctl_addr(ioctl_addr), .ioctl_dout(ioctl_dout),
+        .clk_sys(clk_sys), .init(mem_init), .ioctl_download(io_dl), .ioctl_index(io_index),
+        .ioctl_wr(io_wr), .ioctl_addr(io_addr), .ioctl_dout(io_dout),
         .record_ok(brd_ok), .record_seen(brd_seen), .kc_mode(kc_mode), .kc_id_word(kc_idw), .kc_id(kc_id),
         .kc_rnd_word(kc_rw), .xform(xform), .game_rot(game_rot), .hot_pages(hot_pages));
 
     // C75 internal ROM: written from the stream as it passes (BIOS window, nb2_mem_pkg)
-    wire c75_irom_we = ioctl_download && (ioctl_index == IOCTL_ROM) && ioctl_wr &&
-                       (ioctl_addr >= 27'h1E80000) && (ioctl_addr < 27'h1E84000);
+    wire c75_irom_we = io_dl && (io_index == IOCTL_ROM) && io_wr &&
+                       (io_addr >= 27'h1E80000) && (io_addr < 27'h1E84000);
 
     // ------------------------------------------------------------------ 68EC020
     reg cpu_go = 1'b0;
@@ -250,13 +272,13 @@ module nb2_core #(
     wire [10:1] nv_mem_addr;
     wire [15:0] nv_mem_wdata, nv_mem_rdata;
     nb1_nvram #(.INDEX(IOCTL_NVRAM), .BYTES(2048)) nvram (
-        .clk_sys(clk_sys), .ioctl_download(ioctl_download), .ioctl_upload(ioctl_upload), .ioctl_index(ioctl_index),
-        .ioctl_wr(ioctl_wr), .ioctl_rd(ioctl_rd), .ioctl_addr(ioctl_addr), .ioctl_dout(ioctl_dout),
+        .clk_sys(clk_sys), .ioctl_download(io_dl), .ioctl_upload(ioctl_upload), .ioctl_index(io_index),
+        .ioctl_wr(io_wr), .ioctl_rd(ioctl_rd), .ioctl_addr(io_addr), .ioctl_dout(io_dout),
         .ioctl_din(ioctl_din), .ioctl_wait(nv_wait), .upload_req(ioctl_upload_req),
         .mem_en(nv_mem_en), .mem_we(nv_mem_we), .mem_addr(nv_mem_addr), .mem_wdata(nv_mem_wdata),
         .mem_rdata(nv_mem_rdata), .cpu_write(eep_cpu_write), .dirty(), .dirty_events(), .loads(), .saves(),
         .last_bytes(), .last_action());
-    assign ioctl_wait = ld_wait | nv_wait;
+    assign io_wait = ld_wait | nv_wait;
 
     // video read side of the bus
     wire [14:0] vid_vram_addr;
@@ -349,7 +371,7 @@ module nb2_core #(
     always @(posedge clk_sys) c75_reset_q <= cpu_reset | ~c75_run | c75_restart;
     nb1_c75 c75 (
         .clk_sys(clk_sys), .reset(c75_reset_q), .ce_c75(ce_c75),
-        .irom_we(c75_irom_we), .irom_waddr(ioctl_addr[13:1]), .irom_wdata(ioctl_dout),
+        .irom_we(c75_irom_we), .irom_waddr(io_addr[13:1]), .irom_wdata(io_dout),
         .sh_en(c75sh_en), .sh_we(c75sh_we), .sh_addr(c75sh_addr), .sh_wdata(c75sh_wdata), .sh_be(c75sh_be),
         .sh_rdata(c75sh_rdata),
         .mreq_valid(c75_mreq_valid), .mreq_ready(c75_mreq_ready), .mreq_region(c75_mreq_region),

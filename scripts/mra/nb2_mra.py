@@ -438,6 +438,8 @@ def board_bytes(game):
 def hexlines(b, indent):
     return '\n'.join(indent + ' '.join('%02X' % x for x in b[i:i+32]) for i in range(0, len(b), 32))
 
+FAST_LOAD_ADDR = 0x30000000                     # rtl/nb2/nb2_fastload.sv BASE_W (stream offset 0 in DDR3)
+
 def mra_zips(game):
     names = [game['set']] + ([game['parent']] if game.get('parent') else []) + ['namcoc75']
     return '|'.join(n + '.zip' for n in names)
@@ -464,6 +466,8 @@ def cmd_generate(a):
     L.append('  MAME byte order, placed in its fixed window; stream offset == physical address (below')
     L.append('  0x2000000 SDRAM, above it the DDR3 sprite store). The C75 BIOS (c75.bin) comes from the game')
     L.append('  zip (non-merged sets) or from namcoc75.zip (split/merged sets).')
+    L.append('  address="0x%08X": DDR3 fast loading (MiSTer copies the stream into DDR3 there and the core' % FAST_LOAD_ADDR)
+    L.append('  replays it, rtl/nb2/nb2_fastload.sv); firmware without it streams the ROM as before.')
     L.append('-->')
     L.append('<misterromdescription>')
     L.append('    <name>%s</name>' % game['description'])
@@ -510,7 +514,7 @@ def cmd_generate(a):
     L.append('    </rom>')
     L.append('    <nvram index="%d" size="%d"/>' % (IOCTL_NVRAM, NVRAM_BYTES))
     L.append('')
-    L.append('    <rom index="%d" zip="%s" md5="none">' % (IOCTL_ROM, zips))
+    L.append('    <rom index="%d" zip="%s" md5="none" address="0x%08X">' % (IOCTL_ROM, zips, FAST_LOAD_ADDR))
     for e in PLATFORM_MAP:
         name, rid, base, size, tag, xf = e
         reg = regs.get(tag) if tag else None

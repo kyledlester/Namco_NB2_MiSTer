@@ -11,6 +11,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE rtl/nb1/nb1_cpu_raster.sv
 set_global_assignment -name SYSTEMVERILOG_FILE rtl/nb2/nb2_sdram.sv
 set_global_assignment -name SYSTEMVERILOG_FILE rtl/nb2/nb2_memory.sv
 set_global_assignment -name SYSTEMVERILOG_FILE rtl/nb2/nb2_obj_store.sv
+set_global_assignment -name SYSTEMVERILOG_FILE rtl/nb2/nb2_fastload.sv
 set_global_assignment -name SYSTEMVERILOG_FILE rtl/nb2/nb2_ddr_mux.sv
 set_global_assignment -name SYSTEMVERILOG_FILE rtl/nb2/nb2_rom_loader.sv
 set_global_assignment -name SYSTEMVERILOG_FILE rtl/nb2/nb2_rom_check.sv

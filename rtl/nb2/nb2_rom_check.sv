@@ -174,7 +174,10 @@ module nb2_rom_check #(
     wire [31:0] rsp_rdata = to_obj ? obj_rsp_rdata : sd_rsp_rdata;
     wire   rsp_err    = to_obj ? obj_rsp_err : sd_rsp_err;
     assign req_region = e_region;
-    assign req_offset = e_offset[25:0] + req_pos[25:0];
+    // timing: the request offset is a register (e_offset + req_pos kept up to date with req_pos), so no adder sits
+    // in front of the memory scheduler's range check and grant (identical request sequence)
+    reg [25:0] req_off_q = '0;
+    assign req_offset = req_off_q;
     assign req_we     = 1'b0;
     assign req_wdata  = 32'd0;
     assign req_be     = 4'b1111;
@@ -236,6 +239,7 @@ module nb2_rom_check #(
                         for (n = 0; n < 4; n++) crc[n] <= 32'hFFFFFFFF;
                         e_fail   <= 1'b0;
                         req_pos  <= '0;
+                        req_off_q <= e_offset[25:0];
                         more_q   <= (e_len != 32'd0);            // = (0 < e_len)
                         done_pos <= '0;
                         entry_status[2*entry +: 2] <= 2'd1;
@@ -253,6 +257,7 @@ module nb2_rom_check #(
                     if (req_valid && req_ready) begin
                         outstanding <= 1'b1;
                         req_pos     <= req_pos + 32'd4;
+                        req_off_q   <= req_off_q + 26'd4;
                         more_q      <= (req_pos + 32'd4 < e_len);
                     end
                     if (outstanding && rsp_valid) begin
